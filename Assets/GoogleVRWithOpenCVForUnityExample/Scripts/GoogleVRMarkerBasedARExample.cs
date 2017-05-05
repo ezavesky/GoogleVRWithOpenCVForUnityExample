@@ -204,15 +204,14 @@ namespace GoogleVRWithOpenCVForUnityExample
 
             StartCoroutine(resetCameraStatus ());
         }
-
+			
         public IEnumerator resetCameraStatus(){
-
-            GvrViewer.Instance.DistortionCorrectionEnabled = !GvrViewer.Instance.DistortionCorrectionEnabled;
+			ToggleDistortionCorrection ();
 
             yield return null;
 
             GvrViewer.Instance.UpdateState();
-            GvrViewer.Instance.DistortionCorrectionEnabled = !GvrViewer.Instance.DistortionCorrectionEnabled;
+			ToggleDistortionCorrection ();
         }
 
 
@@ -347,13 +346,17 @@ namespace GoogleVRWithOpenCVForUnityExample
         }
 
         public void ToggleDistortionCorrection() {
-            GvrViewer.Instance.DistortionCorrectionEnabled =
-                !GvrViewer.Instance.DistortionCorrectionEnabled;
+			if (GvrViewer.Instance.DistortionCorrection != GvrViewer.DistortionCorrectionMethod.Unity) {
+				GvrViewer.Instance.DistortionCorrection = GvrViewer.DistortionCorrectionMethod.Unity;
+			} else {
+				GvrViewer.Instance.DistortionCorrection = GvrViewer.DistortionCorrectionMethod.None;
+			}
         }
 
         #if !UNITY_HAS_GOOGLEVR || UNITY_EDITOR
         public void ToggleDirectRender() {
-            GvrViewer.Controller.directRender = !GvrViewer.Controller.directRender;
+			Debug.LogWarning ("ToggleDirectRender (not implemented)");
+            //GvrViewer.Controller.directRender = !GvrViewer.Controller.directRender;
         }
         #endif  //  !UNITY_HAS_GOOGLEVR || UNITY_EDITOR
 
